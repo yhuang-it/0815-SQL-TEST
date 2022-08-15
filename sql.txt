@@ -1,0 +1,69 @@
+-- Q2, part 1 - What are the Top 25 schools (.edu domains)?
+
+SELECT DISTINCT email_domain
+FROM users
+LIMIT 25;
+  
+
+-- Q2, part 2 - How many .edu learners are located in New York?
+
+SELECT city, COUNT(email_domain)
+FROM users
+WHERE city = 'New York'
+GROUP BY city;
+
+
+-- Q2, part 3 -  How many of these Codecademy learners are using the mobile app?
+
+SELECT COUNT(*)
+FROM users
+WHERE mobile_app IS NOT NULL;
+
+
+Q3 - Using strftime() function to query for the sign up counts for each hour.
+
+SELECT sign_up_at,
+   strftime('%H', sign_up_at)
+FROM users
+GROUP BY 1
+LIMIT 20;
+
+SELECT strftime('%H', sign_up_at),
+  COUNT(*)
+FROM users
+GROUP BY strftime('%H', sign_up_at);
+
+
+-- Q4 - Join 2 tables using JOIN
+
+SELECT *
+FROM users
+JOIN progress
+  ON users.user_id = progress.user_id;
+  
+
+-- Q4, part 1 - Do different schools (.edu domains) prefer different courses?
+
+SELECT *
+FROM users
+JOIN progress
+  ON users.user_id = progress.user_id
+ORDER BY email_domain;
+
+
+-- Q4, part 2 - What courses are the New Yorkers students taking?
+
+SELECT *
+FROM users
+JOIN progress
+  ON users.user_id = progress.user_id
+WHERE city = 'New York';
+
+
+-- Q4, part 3 - What courses are the Chicago students taking?
+
+SELECT *
+FROM users
+JOIN progress
+  ON users.user_id = progress.user_id
+WHERE city = 'Chicago';
